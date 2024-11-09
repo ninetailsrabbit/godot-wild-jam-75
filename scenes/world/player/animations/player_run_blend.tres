@@ -1,0 +1,34 @@
+[gd_resource type="AnimationNodeBlendSpace2D" load_steps=7 format=3 uid="uid://q240tacel6u1"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6po34"]
+animation = &"walk_down"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tr2jd"]
+animation = &"walk_up"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4xori"]
+animation = &"walk_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2vldj"]
+animation = &"walk_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mgs47"]
+animation = &"walk_up"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ow5w1"]
+animation = &"walk_down"
+
+[resource]
+blend_point_0/node = SubResource("AnimationNodeAnimation_6po34")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_tr2jd")
+blend_point_1/pos = Vector2(0, -1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_4xori")
+blend_point_2/pos = Vector2(1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_2vldj")
+blend_point_3/pos = Vector2(-1, 0)
+blend_point_4/node = SubResource("AnimationNodeAnimation_mgs47")
+blend_point_4/pos = Vector2(0, -1)
+blend_point_5/node = SubResource("AnimationNodeAnimation_ow5w1")
+blend_point_5/pos = Vector2(0, 1)
+blend_mode = 1

@@ -2,7 +2,7 @@ class_name Player extends CharacterBody2D
 
 @export var speed: float = 300.0
 @export var acceleration: float = 25.0
-@export var friction: float = 20.0
+@export var friction: float = 50.0
 @export var health: int = 100
 
 @onready var hurtbox_2d: Hurtbox2D = $Hurtbox2D
@@ -11,16 +11,28 @@ class_name Player extends CharacterBody2D
 
 
 var motion_input: TransformedInput = TransformedInput.new(self)
-var last_facing_direction: Vector2 = Vector2.RIGHT
+var last_facing_direction: Vector2 = Vector2.DOWN
 
 
+func _ready() -> void:
+	## Change the time scale value for animations, combine with player speed for better results.
+	animation_tree.set("parameters/TimeScale/scale", 1.0)
+	
+	
 func _physics_process(delta: float) -> void:
-	last_facing_direction = velocity.normalized()
 	motion_input.update()
 	
-	velocity = velocity.lerp(motion_input.input_direction * speed, acceleration * delta)
+	if not motion_input.previous_input_direction.is_zero_approx():
+		last_facing_direction = motion_input.previous_input_direction
+		
+	animation_tree.set("parameters/Player States/Idle/blend_position", last_facing_direction)
+	animation_tree.set("parameters/Player States/Walk/blend_position", last_facing_direction)
+
+	if motion_input.input_direction.is_zero_approx():
+		velocity = velocity.lerp(Vector2.ZERO, friction * delta) if friction > 0 else Vector2.ZERO
+	else:
+		velocity = velocity.lerp(motion_input.input_direction * speed, acceleration * delta) if acceleration > 0 else motion_input.input_direction * speed
 	
 	move_and_slide()
 	
-	animation_tree.set("parameters/blend_position", velocity.normalized())
 	

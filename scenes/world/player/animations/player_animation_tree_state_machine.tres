@@ -1,0 +1,45 @@
+[gd_resource type="AnimationNodeStateMachine" load_steps=10 format=3 uid="uid://bakfdgrbm4asw"]
+
+[ext_resource type="AnimationNodeBlendSpace2D" uid="uid://q240tacel6u1" path="res://scenes/world/player/animations/player_run_blend.tres" id="1_3bbq5"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_r2v6p"]
+animation = &"idle_up"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xje85"]
+animation = &"idle_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_o4gj3"]
+animation = &"idle_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1atku"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_sa1bx"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_r2v6p")
+blend_point_0/pos = Vector2(0, -1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_xje85")
+blend_point_1/pos = Vector2(-1, 0)
+blend_point_2/node = SubResource("AnimationNodeAnimation_o4gj3")
+blend_point_2/pos = Vector2(1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_1atku")
+blend_point_3/pos = Vector2(0, 1)
+blend_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_c4p8o"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_iph5y"]
+advance_mode = 2
+advance_expression = "velocity"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hl0qx"]
+advance_mode = 2
+advance_expression = "!velocity"
+
+[resource]
+states/Idle/node = SubResource("AnimationNodeBlendSpace2D_sa1bx")
+states/Idle/position = Vector2(384, 54)
+states/Start/position = Vector2(195, 106)
+states/Walk/node = ExtResource("1_3bbq5")
+states/Walk/position = Vector2(563, 111)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_c4p8o"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_iph5y"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_hl0qx")]

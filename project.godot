@@ -16,7 +16,6 @@ config/version="1.0.0"
 config/features=PackedStringArray("4.3", "Forward Plus")
 boot_splash/image="res://assets/boot/GWJ-Full-Logo-tag-Orange2.png"
 config/icon="res://icon.svg"
-boot_splash/minimum_display_time=2500
 
 [autoload]
 
