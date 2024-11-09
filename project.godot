@@ -126,3 +126,8 @@ performance_metrics={
 2d_physics/layer_5="Shakeables"
 2d_physics/layer_6="Bullets"
 2d_physics/layer_7="Mirrors"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+2d/snap/snap_2d_transforms_to_pixel=true
