@@ -15,7 +15,7 @@ tile_map_data = PackedByteArray("AAAAAAIAAAAAAAAAAAAAAAMAAAAAAAEAAAABAAEAAAAAAAA
 tile_set = ExtResource("1_4f73s")
 
 [node name="Player" parent="." instance=ExtResource("1_0puli")]
-position = Vector2(134, 71)
+position = Vector2(222, 219)
 speed = 100.0
 acceleration = 0.0
 friction = 0.0

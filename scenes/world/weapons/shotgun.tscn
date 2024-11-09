@@ -1,0 +1,72 @@
+[gd_scene load_steps=11 format=3 uid="uid://dbk3wns7rg6h6"]
+
+[ext_resource type="Script" path="res://scenes/world/weapons/firearm_weapon.gd" id="1_wnbvy"]
+[ext_resource type="Script" path="res://scenes/world/weapons/configuration/firearm_weapon_ammo.gd" id="2_4oxyv"]
+[ext_resource type="Texture2D" uid="uid://2gunkq0ul02w" path="res://scenes/world/weapons/sprites/Diana Raptor 4.png" id="2_dhb36"]
+[ext_resource type="Script" path="res://scenes/world/weapons/configuration/firearm_weapon_configuration.gd" id="3_h3s64"]
+[ext_resource type="Script" path="res://scenes/world/weapons/configuration/firearm_weapon_bullet.gd" id="3_i5whu"]
+[ext_resource type="Script" path="res://scenes/world/weapons/configuration/firearm_weapon_fire.gd" id="4_4hvm3"]
+
+[sub_resource type="Resource" id="Resource_gcxxe"]
+script = ExtResource("2_4oxyv")
+initial_ammunition = 24
+max_ammunition = 54
+current_ammunition = 54
+magazine_size = 6
+current_magazine = 6
+chamber = 0
+
+[sub_resource type="Resource" id="Resource_utuye"]
+script = ExtResource("3_i5whu")
+base_damage = 10
+impact_force = Vector3(1, 1, 1)
+close_distance_to_apply_damage_multiplier = 25
+close_distance_damage_multiplier = 1.5
+multiplier_for_distance_traveled = Array[float]([50.0, 1.0])
+
+[sub_resource type="Resource" id="Resource_uuio3"]
+script = ExtResource("4_4hvm3")
+shoot_damage = 5
+auto_reload_on_empty_magazine = true
+reload_time = 3.0
+fire_rate = 0.2
+burst_type = 0
+number_of_shoots = 1
+bullets_per_shoot = 1
+bullet_spread_degrees = 10.0
+bullet_distance_from_origin = 0.0
+
+[sub_resource type="Resource" id="Resource_cnu03"]
+script = ExtResource("3_h3s64")
+id = &"revolver"
+name = "Diana raptor 4"
+description = "A trusted revolver for years"
+durability = 95.0
+accuracy = 90.0
+ammo = SubResource("Resource_gcxxe")
+bullet = SubResource("Resource_utuye")
+fire = SubResource("Resource_uuio3")
+muzzle_lifetime = 0.03
+muzzle_min_size = Vector2(0.05, 0.05)
+muzzle_max_size = Vector2(0.35, 0.35)
+muzzle_emit_on_ready = true
+muzzle_spawn_light = true
+muzzle_light_lifetime = 0.01
+muzzle_min_light_energy = 1.0
+muzzle_max_light_energy = 1.0
+muzzle_light_color = Color(1, 0.843137, 0, 1)
+
+[node name="Revolver" type="Node2D"]
+script = ExtResource("1_wnbvy")
+configuration = SubResource("Resource_cnu03")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 100
+scale = Vector2(0.28, 0.363)
+texture = ExtResource("2_dhb36")
+
+[node name="BarrelMarker" type="Marker2D" parent="."]
+position = Vector2(9, -2)
+
+[node name="MuzzleMarker" type="Marker2D" parent="."]
+position = Vector2(8, -2)
