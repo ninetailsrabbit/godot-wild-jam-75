@@ -505,8 +505,12 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/TimeScale/scale = 1.0
 
 [node name="FirearmWeaponHolder" type="Node2D" parent="." node_paths=PackedStringArray("gun_pivot_point")]
+rotation = 4.327
 script = ExtResource("7_50xm8")
 gun_pivot_point = NodePath("GunPivotPoint")
+weapon_positions_from_pivot = {
+"revolver": Vector2(5, 0)
+}
 
 [node name="GunPivotPoint" type="Marker2D" parent="FirearmWeaponHolder"]
 position = Vector2(0, 2)

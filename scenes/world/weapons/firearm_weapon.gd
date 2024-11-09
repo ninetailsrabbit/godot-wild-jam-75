@@ -27,6 +27,7 @@ var current_state: CombatStates = CombatStates.Neutral
 
 var fire_timer: float = 0.0
 var fire_impulse_timer: float = 0.0
+var original_position: Vector2 = Vector2.ZERO
 
 var active: bool = true:
 	set(value):
@@ -47,11 +48,18 @@ func _physics_process(delta: float) -> void:
 				shoot()
 
 
+func _ready() -> void:
+	original_position = position
+	
+	
 func flip_sprite(result: bool) -> void:
 	if result != sprite.flip_v:
 		sprite.flip_v = result
 		barrel_marker.position.y *= -1
 		muzzle_marker.position.y *= -1
+		
+		if sprite.flip_v:
+			position.y = -position.x / 2.0 if sprite.flip_v else original_position.y
 		
 
 func shoot() -> void:
@@ -72,6 +80,8 @@ func shoot() -> void:
 
 func spawn_bullet() -> void:
 	var bullet: Bullet = configuration.bullet.scene.instantiate() as Bullet
+	bullet.origin_weapon = self
+	
 	get_tree().current_scene.add_child(bullet)
 	bullet.global_position = barrel_marker.global_position
 	bullet.look_at(get_global_mouse_position())
@@ -102,7 +112,8 @@ func reload() -> void:
 
 func reload_animation() -> void:
 	pass
-	
+
+
 func _can_shoot(use_fire_timer: bool = true) -> bool:
 	if not active:
 		return false
