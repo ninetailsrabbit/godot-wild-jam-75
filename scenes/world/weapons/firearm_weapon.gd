@@ -11,7 +11,7 @@ signal out_of_ammo
 @export var configuration: FireArmWeaponConfiguration
 @export var use_fire_timer: bool = true
 
-@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var sprite: Sprite2D = $Sprite2D
 @onready var barrel_marker: Marker2D = $BarrelMarker
 @onready var muzzle_marker: Marker2D = $MuzzleMarker
 

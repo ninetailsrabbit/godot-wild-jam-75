@@ -4,6 +4,7 @@ class_name FireArmWeaponConfiguration extends Resource
 @export var id: StringName
 @export var name: String = ""
 @export var description: String = ""
+@export var rotation_speed: float = 15.0
 @export_range(0, 100, 0.1) var durability: float = 95.0
 @export_range(0, 100, 0.1) var accuracy: float = 90.0
 @export_group("Configuration")
