@@ -6,7 +6,7 @@
 [ext_resource type="SpriteFrames" uid="uid://q6jqkiwbbdwf" path="res://scenes/world/player/animations/player_animated_sprite.tres" id="4_enlms"]
 [ext_resource type="Texture2D" uid="uid://cftxlwkqvyl61" path="res://scenes/world/player/sprites/shadow.png" id="5_ha0pv"]
 [ext_resource type="AnimationNodeStateMachine" uid="uid://bakfdgrbm4asw" path="res://scenes/world/player/animations/player_animation_tree_state_machine.tres" id="6_r02cx"]
-[ext_resource type="Script" path="res://scenes/world/weapons/firearmweapon_holder.gd" id="7_50xm8"]
+[ext_resource type="Script" path="res://scenes/world/weapons/firearm_weapon_holder.gd" id="7_50xm8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0vf2v"]
 radius = 6.0

@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="FireArmWeaponConfiguration" load_steps=8 format=3 uid="uid://bbsctpp6uqqx2"]
+[gd_resource type="Resource" script_class="FireArmWeaponConfiguration" load_steps=9 format=3 uid="uid://bbsctpp6uqqx2"]
 
 [ext_resource type="Script" path="res://scenes/world/weapons/configuration/firearm_weapon_ammo.gd" id="1_to1ce"]
 [ext_resource type="Script" path="res://scenes/world/weapons/configuration/firearm_weapon_bullet.gd" id="2_0oknh"]
+[ext_resource type="PackedScene" uid="uid://dr0fciakgnpjg" path="res://scenes/world/weapons/database/guns/revolver/revolver_bullet.tscn" id="2_pptlo"]
 [ext_resource type="Script" path="res://scenes/world/weapons/configuration/firearm_weapon_fire.gd" id="3_1nbv0"]
 [ext_resource type="Script" path="res://scenes/world/weapons/configuration/firearm_weapon_configuration.gd" id="4_r7b8o"]
 
@@ -16,6 +17,7 @@ chamber = 0
 
 [sub_resource type="Resource" id="Resource_utuye"]
 script = ExtResource("2_0oknh")
+scene = ExtResource("2_pptlo")
 base_damage = 10
 impact_force = Vector3(1, 1, 1)
 close_distance_to_apply_damage_multiplier = 25
@@ -39,6 +41,7 @@ script = ExtResource("4_r7b8o")
 id = &"revolver"
 name = "Diana raptor 4"
 description = "A trusted revolver for years"
+rotation_speed = 15.0
 durability = 95.0
 accuracy = 90.0
 ammo = SubResource("Resource_gcxxe")

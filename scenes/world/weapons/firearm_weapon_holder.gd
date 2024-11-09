@@ -69,7 +69,11 @@ func _ready() -> void:
 	assign_primary_weapon_slot(WeaponDatabase.IdentifierRevolver)
 	
 
-func _physics_process(delta):
+func _physics_process(delta: float):
+	rotate_weapon(delta)
+
+
+func rotate_weapon(delta: float) -> void:
 	if current_weapon:
 		smoothed_mouse_position = lerp(
 			smoothed_mouse_position, 
@@ -80,12 +84,9 @@ func _physics_process(delta):
 		look_at(smoothed_mouse_position)
 		
 		## Flip sprite when rotate on the other plane
-		var result = cos(rotation) < 0.0
-		
-		if result != current_weapon.scene.sprite.flip_v:
-			current_weapon.scene.sprite.flip_v = result
-		
-		
+		current_weapon.scene.flip_sprite(cos(rotation) < 0.0)
+
+
 func change_weapon_to(id: StringName) -> void:
 	if current_weapon and current_weapon.id == id:
 		return
@@ -102,14 +103,15 @@ func change_weapon_to(id: StringName) -> void:
 		changed_weapon.emit(previous_weapon, new_weapon)
 
 
-		
 func equip_new_weapon(new_weapon: WeaponDatabase.WeaponRecord) -> void:
 	if not new_weapon.scene.is_inside_tree():
 		gun_pivot_point.add_child(new_weapon.scene)
-		new_weapon.scene.position = weapon_positions_from_pivot[new_weapon.id]
 	
 	current_weapon = new_weapon
+	current_weapon.scene.position = weapon_positions_from_pivot[current_weapon.id]
 	
+	reload_timer.stop()
+	reload_timer.wait_time = current_weapon.configuration.fire.reload_time
 	#await current_weapon.draw_animation()
 	
 	current_state = WeaponHolderStates.Neutral

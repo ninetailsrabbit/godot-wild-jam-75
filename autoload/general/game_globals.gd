@@ -8,6 +8,7 @@ const enemies_collision_layer: int = 4
 const hitboxes_collision_layer: int = 8
 const shakeables_collision_layer: int = 16
 const mirrors_collision_layer: int = 32
+const bullets_collision_layer: int = 64
 #endregion
 
 

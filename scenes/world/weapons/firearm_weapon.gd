@@ -23,7 +23,7 @@ enum CombatStates {
 }
 
 
-var current_combat_state: CombatStates = CombatStates.Neutral
+var current_state: CombatStates = CombatStates.Neutral
 
 var fire_timer: float = 0.0
 var fire_impulse_timer: float = 0.0
@@ -38,18 +38,31 @@ var active: bool = true:
 
 
 func _physics_process(delta: float) -> void:
-	if (fire_timer < configuration.fire.fire_rate):
+	if use_fire_timer and fire_timer < configuration.fire.fire_rate:
 		fire_timer += delta
+		
+	match configuration.fire.burst_type:
+		configuration.fire.BurstTypes.Single:
+			if InputHelper.action_just_pressed_and_exists(InputControls.Shoot):
+				shoot()
+
+
+func flip_sprite(result: bool) -> void:
+	if result != sprite.flip_v:
+		sprite.flip_v = result
+		barrel_marker.position.y *= -1
+		muzzle_marker.position.y *= -1
 		
 
 func shoot() -> void:
 	if _can_shoot(use_fire_timer):
-		current_combat_state = CombatStates.Fire
+		current_state = CombatStates.Fire
 		
-
 		configuration.ammo.current_ammunition -= configuration.fire.bullets_per_shoot
 		configuration.ammo.current_magazine -= configuration.fire.bullets_per_shoot
 		fire_timer = 0.0
+		
+		spawn_bullet()
 		
 		fired.emit()
 		
@@ -57,9 +70,17 @@ func shoot() -> void:
 		reload()
 
 
+func spawn_bullet() -> void:
+	var bullet: Bullet = configuration.bullet.scene.instantiate() as Bullet
+	get_tree().current_scene.add_child(bullet)
+	bullet.global_position = barrel_marker.global_position
+	bullet.look_at(get_global_mouse_position())
+	bullet.direction = global_position.direction_to(get_global_mouse_position())
+
+
 func reload() -> void:
-	if configuration.ammo.can_reload() and not current_combat_state == CombatStates.Reload:
-		current_combat_state = CombatStates.Reload
+	if configuration.ammo.can_reload() and not current_state == CombatStates.Reload:
+		current_state = CombatStates.Reload
 		
 		var ammo_needed = configuration.ammo.magazine_size - configuration.ammo.current_magazine
 		
@@ -76,7 +97,7 @@ func reload() -> void:
 		
 		reloaded.emit()
 		
-		current_combat_state = CombatStates.Neutral
+		current_state = CombatStates.Neutral
 
 
 func reload_animation() -> void:
@@ -89,7 +110,7 @@ func _can_shoot(use_fire_timer: bool = true) -> bool:
 	if use_fire_timer and fire_timer < configuration.fire.fire_rate:
 		return false
 		
-	if current_combat_state == CombatStates.Reload:
+	if current_state == CombatStates.Reload:
 		return false
 		
 	if not configuration.ammo.has_ammunition_to_shoot():
