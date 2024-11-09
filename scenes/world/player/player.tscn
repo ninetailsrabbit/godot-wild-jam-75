@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dejcn8ritkfd7"]
+[gd_scene load_steps=21 format=3 uid="uid://dejcn8ritkfd7"]
 
 [ext_resource type="Script" path="res://components/collisions/hurtbox_2d.gd" id="1_m80ao"]
 [ext_resource type="Script" path="res://scenes/world/player/player.gd" id="1_p0glr"]
@@ -6,6 +6,14 @@
 [ext_resource type="SpriteFrames" uid="uid://q6jqkiwbbdwf" path="res://scenes/world/player/animations/player_animated_sprite.tres" id="4_enlms"]
 [ext_resource type="Texture2D" uid="uid://cftxlwkqvyl61" path="res://scenes/world/player/sprites/shadow.png" id="5_ha0pv"]
 [ext_resource type="AnimationNodeStateMachine" uid="uid://bakfdgrbm4asw" path="res://scenes/world/player/animations/player_animation_tree_state_machine.tres" id="6_r02cx"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0vf2v"]
+radius = 6.0
+height = 16.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3qw6y"]
+radius = 6.0
+height = 14.0
 
 [sub_resource type="Animation" id="Animation_ealm3"]
 resource_name = "idle"
@@ -461,20 +469,25 @@ node_connections = [&"TimeScale", 0, &"Player States", &"output", 0, &"TimeScale
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_p0glr")
 
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_acef2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_0vf2v")
+
 [node name="Hurtbox2D" type="Area2D" parent="."]
 script = ExtResource("1_m80ao")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox2D"]
+shape = SubResource("CapsuleShape2D_3qw6y")
+debug_color = Color(0.889065, 0.300149, 0.345116, 0.42)
 
-[node name="HealthComponent" type="Node" parent="."]
-script = ExtResource("2_acef2")
+[node name="Shadow" type="Sprite2D" parent="."]
+texture = ExtResource("5_ha0pv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("4_enlms")
 animation = &"idle"
-
-[node name="Shadow" type="Sprite2D" parent="."]
-texture = ExtResource("5_ha0pv")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -482,6 +495,7 @@ libraries = {
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
+active = false
 tree_root = SubResource("AnimationNodeBlendTree_qsvlf")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")

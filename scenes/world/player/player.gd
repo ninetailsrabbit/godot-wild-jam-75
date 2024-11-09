@@ -15,6 +15,7 @@ var last_facing_direction: Vector2 = Vector2.DOWN
 
 
 func _ready() -> void:
+	animation_tree.active = true
 	## Change the time scale value for animations, combine with player speed for better results.
 	animation_tree.set("parameters/TimeScale/scale", 1.0)
 	

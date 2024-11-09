@@ -157,7 +157,7 @@ func _create_invulnerability_timer(time: float = invulnerability_time):
 		
 
 ## SIGNAL CALLBACKS ##
-func on_health_changed(amount: int, type: Types):
+func on_health_changed(_amount: int, type: Types):
 	if type == Types.Damage:
 		enable_health_regen()
 		Callable(check_is_dead).call_deferred()
