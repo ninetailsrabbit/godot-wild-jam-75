@@ -468,6 +468,7 @@ nodes/output/position = Vector2(580, 80)
 node_connections = [&"TimeScale", 0, &"Player States", &"output", 0, &"TimeScale"]
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 2
 script = ExtResource("1_p0glr")
 
 [node name="HealthComponent" type="Node" parent="."]
@@ -505,7 +506,6 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/TimeScale/scale = 1.0
 
 [node name="FirearmWeaponHolder" type="Node2D" parent="." node_paths=PackedStringArray("gun_pivot_point")]
-rotation = 4.327
 script = ExtResource("7_50xm8")
 gun_pivot_point = NodePath("GunPivotPoint")
 weapon_positions_from_pivot = {
@@ -513,7 +513,6 @@ weapon_positions_from_pivot = {
 }
 
 [node name="GunPivotPoint" type="Marker2D" parent="FirearmWeaponHolder"]
-position = Vector2(0, 2)
 
 [node name="ReloadTimer" type="Timer" parent="FirearmWeaponHolder"]
 process_callback = 0

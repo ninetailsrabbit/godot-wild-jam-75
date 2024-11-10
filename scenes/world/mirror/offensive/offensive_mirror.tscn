@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c702vdl04wfuo"]
+
+[ext_resource type="Script" path="res://scenes/world/mirror/mirror.gd" id="1_i35oj"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_bwhb0"]
+radius = 6.0
+height = 50.0
+
+[node name="OffensiveMirror" type="Node2D" node_paths=PackedStringArray("mesh_instance")]
+script = ExtResource("1_i35oj")
+mesh_instance = NodePath("Mirror")
+
+[node name="Mirror" type="MeshInstance2D" parent="."]
+rotation = 1.5708
+mesh = SubResource("CapsuleMesh_bwhb0")

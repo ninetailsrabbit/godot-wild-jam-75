@@ -13,6 +13,9 @@ class_name Player extends CharacterBody2D
 var motion_input: TransformedInput = TransformedInput.new(self)
 var last_facing_direction: Vector2 = Vector2.DOWN
 
+func _enter_tree() -> void:
+	collision_layer = GameGlobals.player_collision_layer
+
 
 func _ready() -> void:
 	animation_tree.active = true

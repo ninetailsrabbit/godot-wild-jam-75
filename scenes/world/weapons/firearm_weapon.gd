@@ -52,14 +52,21 @@ func _ready() -> void:
 	original_position = position
 	
 	
-func flip_sprite(result: bool) -> void:
-	if result != sprite.flip_v :
-		sprite.flip_v = result
-		barrel_marker.position.y *= -1
-		muzzle_marker.position.y *= -1
-		
-		if sprite.flip_v:
-			position.y = -position.x / 2.0 if sprite.flip_v else original_position.y
+func flip_sprite(on_left_plane: bool) -> void:
+	## A short approach to flip the sprite without the need of modify positions of other nodes
+	if on_left_plane and sign(scale.y) != -1:
+		scale.y *= -1
+			
+	elif not on_left_plane and sign(scale.y) != 1:
+		scale.y *= -1
+	
+	#if result != sprite.flip_v:
+		#sprite.flip_v = result
+		#barrel_marker.position.y *= -1
+		#muzzle_marker.position.y *= -1
+		#
+		#if sprite.flip_v:
+			#position.y = -position.x / 2.0 if sprite.flip_v else original_position.y
 
 
 func shoot() -> void:

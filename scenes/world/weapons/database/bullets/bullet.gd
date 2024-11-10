@@ -48,7 +48,7 @@ func _ready() -> void:
 	apply_impulse(direction * impact_force * speed, -position)
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	distance_traveled = NodePositioner.global_distance_to_v2(origin_weapon, self)
 
 ## Use as data when the hurtbox detects this hitbox to calculate the damage
