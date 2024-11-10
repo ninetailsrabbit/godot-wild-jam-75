@@ -12,7 +12,11 @@ height = 8.0
 radius = 1.0
 height = 8.0
 
-[node name="RevolverBullet" type="Node2D"]
+[node name="RevolverBullet" type="RigidBody2D"]
+position = Vector2(4, 0)
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 1
 script = ExtResource("1_t0cl3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -20,15 +24,13 @@ position = Vector2(-0.5, -2.38419e-07)
 scale = Vector2(0.0859375, 0.015625)
 texture = ExtResource("1_5nof2")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-scale = Vector2(1.5, 1.5)
-
-[node name="ShapeArea" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ShapeArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_pwqu6")
 debug_color = Color(0.858426, 0.334469, 0.384354, 0.42)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(1.5, 1.5)
 
 [node name="Hitbox2D" type="Area2D" parent="."]
 script = ExtResource("3_dglvf")

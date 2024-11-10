@@ -1,4 +1,4 @@
-class_name Bullet extends Node2D
+class_name Bullet extends RigidBody2D
 
 const GroupName = "bullets"
 
@@ -6,11 +6,10 @@ const GroupName = "bullets"
 @export var impact_force: Vector2 = Vector2.ONE
 @export_range(0, 100.0, 0.01) var trace_display_chance: float = 50.0
 @export var direction: Vector2
-@export var speed: float = 10.0
+@export var speed: float = 1000.0
 @export var delete_after_seconds: float = 2.5
 
 @onready var hitbox_2d: Hitbox2D = $Hitbox2D
-@onready var shape_area: Area2D = $ShapeArea
 @onready var visible_on_screen_notifier_2d: VisibleOnScreenNotifier2D = $VisibleOnScreenNotifier2D
 @onready var timer: Timer = $Timer
 
@@ -21,15 +20,22 @@ var distance_traveled: float = 0.0
 func _enter_tree() -> void:
 	add_to_group(GroupName)
 	
+	contact_monitor = true
+	max_contacts_reported = 1
+	gravity_scale = 0
+	lock_rotation = true
+	
+	body_entered.connect(on_body_entered)
+
 
 func _ready() -> void:
-	shape_area.monitoring = true
-	shape_area.monitorable = true
-	shape_area.priority = 1
-	shape_area.collision_layer = GameGlobals.bullets_collision_layer
-	shape_area.collision_mask = GameGlobals.world_collision_layer | GameGlobals.bullets_collision_layer
+	global_position = origin_weapon.barrel_marker.global_position
+	look_at(get_global_mouse_position())
+	direction = global_position.direction_to(get_global_mouse_position())
 	
-
+	collision_layer = GameGlobals.bullets_collision_layer
+	collision_mask = GameGlobals.world_collision_layer | GameGlobals.enemies_collision_layer | GameGlobals.bullets_collision_layer
+	
 	if delete_after_seconds > 0 and is_instance_valid(timer):
 		timer.process_callback = Timer.TIMER_PROCESS_PHYSICS
 		timer.wait_time = delete_after_seconds
@@ -39,13 +45,12 @@ func _ready() -> void:
 	
 	visible_on_screen_notifier_2d.screen_exited.connect(on_screen_exited)
 	
-	
+	apply_impulse(direction * impact_force * speed, -position)
+
+
 func _physics_process(delta: float) -> void:
-	global_position += speed * direction
-	
 	distance_traveled = NodePositioner.global_distance_to_v2(origin_weapon, self)
 
-	
 ## Use as data when the hurtbox detects this hitbox to calculate the damage
 func collision_damage() -> float:
 	var total_damage = origin_weapon.configuration.fire.shoot_damage + damage
@@ -61,6 +66,13 @@ func collision_damage() -> float:
 	
 	return total_damage
 
+
+func on_body_entered(other_body: Node) -> void:
+	hide()
+	## TODO - HANDLE THE IMPACT BASED ON THE OTHER BODY
+	if not is_queued_for_deletion():
+		queue_free()
+		
 
 func on_timer_timeout() -> void:
 	if not is_queued_for_deletion():

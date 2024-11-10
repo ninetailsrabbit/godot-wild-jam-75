@@ -25,7 +25,7 @@ func _physics_process(delta: float) -> void:
 	
 	if not motion_input.previous_input_direction.is_zero_approx():
 		last_facing_direction = motion_input.previous_input_direction
-		
+	
 	animation_tree.set("parameters/Player States/Idle/blend_position", last_facing_direction)
 	animation_tree.set("parameters/Player States/Walk/blend_position", last_facing_direction)
 
@@ -35,5 +35,3 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.lerp(motion_input.input_direction * speed, acceleration * delta) if acceleration > 0 else motion_input.input_direction * speed
 	
 	move_and_slide()
-	
-	

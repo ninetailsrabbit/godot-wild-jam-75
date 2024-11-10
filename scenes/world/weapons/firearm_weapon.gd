@@ -53,14 +53,14 @@ func _ready() -> void:
 	
 	
 func flip_sprite(result: bool) -> void:
-	if result != sprite.flip_v:
+	if result != sprite.flip_v :
 		sprite.flip_v = result
 		barrel_marker.position.y *= -1
 		muzzle_marker.position.y *= -1
 		
 		if sprite.flip_v:
 			position.y = -position.x / 2.0 if sprite.flip_v else original_position.y
-		
+
 
 func shoot() -> void:
 	if _can_shoot(use_fire_timer):
@@ -83,10 +83,7 @@ func spawn_bullet() -> void:
 	bullet.origin_weapon = self
 	
 	get_tree().current_scene.add_child(bullet)
-	bullet.global_position = barrel_marker.global_position
-	bullet.look_at(get_global_mouse_position())
-	bullet.direction = global_position.direction_to(get_global_mouse_position())
-
+	
 
 func reload() -> void:
 	if configuration.ammo.can_reload() and not current_state == CombatStates.Reload:
