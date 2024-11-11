@@ -6,8 +6,8 @@ const GroupName = "bullets"
 @export var impact_force: Vector2 = Vector2.ONE
 @export_range(0, 100.0, 0.01) var trace_display_chance: float = 50.0
 @export var direction: Vector2
-@export var speed: float = 1000.0
-@export var delete_after_seconds: float = 2.5
+@export var speed: float = 500.0
+@export var delete_after_seconds: float = 5.0
 
 @onready var hitbox_2d: Hitbox2D = $Hitbox2D
 @onready var visible_on_screen_notifier_2d: VisibleOnScreenNotifier2D = $VisibleOnScreenNotifier2D
@@ -15,6 +15,7 @@ const GroupName = "bullets"
 
 var origin_weapon: FirearmWeapon
 var distance_traveled: float = 0.0
+var is_mirrored: bool = false
 
 
 func _enter_tree() -> void:
@@ -29,12 +30,15 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	global_position = origin_weapon.barrel_marker.global_position
-	look_at(get_global_mouse_position())
-	direction = global_position.direction_to(get_global_mouse_position())
+	if not is_mirrored:
+		global_position = origin_weapon.barrel_marker.global_position
+		look_at(get_global_mouse_position())
+	
+	if direction.is_zero_approx():
+		direction = global_position.direction_to(get_global_mouse_position())
 	
 	collision_layer = GameGlobals.bullets_collision_layer
-	collision_mask = GameGlobals.world_collision_layer | GameGlobals.enemies_collision_layer | GameGlobals.bullets_collision_layer
+	collision_mask = GameGlobals.world_collision_layer | GameGlobals.enemies_collision_layer
 	
 	if delete_after_seconds > 0 and is_instance_valid(timer):
 		timer.process_callback = Timer.TIMER_PROCESS_PHYSICS
@@ -66,6 +70,14 @@ func collision_damage() -> float:
 	
 	return total_damage
 
+
+func mirror() -> Bullet:
+	var duplicated: Bullet = self.duplicate()
+	duplicated.origin_weapon = origin_weapon
+	duplicated.is_mirrored = true
+	
+	return duplicated
+	
 
 func on_body_entered(other_body: Node) -> void:
 	hide()

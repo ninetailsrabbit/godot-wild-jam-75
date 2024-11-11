@@ -1,6 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://c702vdl04wfuo"]
+[gd_scene load_steps=5 format=3 uid="uid://c702vdl04wfuo"]
 
 [ext_resource type="Script" path="res://scenes/world/mirror/mirror.gd" id="1_i35oj"]
+[ext_resource type="Shader" path="res://shaders/shield_impact_waves.gdshader" id="2_mwiwa"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cless"]
+shader = ExtResource("2_mwiwa")
+shader_parameter/zoom_out = 1.0
+shader_parameter/border_decay = 0.6
+shader_parameter/shield_tint = Color(0.407843, 0.564706, 0.729412, 0.768627)
+shader_parameter/shield_saturation = Color(1, 1, 1, 0.76)
+shader_parameter/attack_angle = 0.0
+shader_parameter/attack_penetration = 0.2
+shader_parameter/attack_radius = 0.2
+shader_parameter/attack_amplitude = 0.1
+shader_parameter/wave_speed = 16.0
+shader_parameter/wave_num = 17.0
+shader_parameter/noise_speed = 3.0
+shader_parameter/noise_amplitude = 0.89
+shader_parameter/noise_deformation = 100.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_bwhb0"]
 radius = 6.0
@@ -9,7 +26,10 @@ height = 50.0
 [node name="OffensiveMirror" type="Node2D" node_paths=PackedStringArray("mesh_instance")]
 script = ExtResource("1_i35oj")
 mesh_instance = NodePath("Mirror")
+top_color = Color(0.545098, 0, 0, 0.745098)
+bottom_color = Color(0.882353, 0.533333, 0.729412, 0.745098)
 
 [node name="Mirror" type="MeshInstance2D" parent="."]
+material = SubResource("ShaderMaterial_cless")
 rotation = 1.5708
 mesh = SubResource("CapsuleMesh_bwhb0")
